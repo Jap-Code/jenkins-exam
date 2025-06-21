@@ -13,7 +13,7 @@ pipeline {
                         script {
                             sh '''
                             docker rm -f jenkins
-                            docker build -t cast_service:$DOCKER_TAG ./cast-service
+                            docker build -t $DOCKER_ID/cast_service:$DOCKER_TAG ./cast-service
                             '''
                         }
                     }
@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         script {
                             sh '''
-                            docker build -t movie_service:$DOCKER_TAG ./movie-service
+                            docker build -t $DOCKER_ID/movie_service:$DOCKER_TAG ./movie-service
                             '''
                         }
                     }
@@ -39,7 +39,7 @@ pipeline {
                         script {
                             sh '''
                             docker login -u $DOCKER_ID -p $DOCKER_PASS
-                            docker push docker.io/$DOCKER_ID/movie-service:$DOCKER_TAG
+                            docker push $DOCKER_ID/movie-service:$DOCKER_TAG
                             '''
                         }
                     }
@@ -49,7 +49,7 @@ pipeline {
                         script {
                             sh '''
                             docker login -u $DOCKER_ID -p $DOCKER_HUB_PASS
-                            docker push docker.io/$DOCKER_ID/cast_service:$DOCKER_TAG 
+                            docker push $DOCKER_ID/cast_service:$DOCKER_TAG 
                             '''
                         }
                     }
