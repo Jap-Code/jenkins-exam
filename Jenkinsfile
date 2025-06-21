@@ -38,7 +38,7 @@ pipeline {
                     steps {
                         script {
                             sh '''
-                            docker login -u $DOCKER_ID -p $DOCKER_HUB_PASS
+                            docker login -u $DOCKER_ID -p $DOCKER_PASS
                             docker push docker.io/$DOCKER_ID/movie-service:$DOCKER_TAG
                             '''
                         }
