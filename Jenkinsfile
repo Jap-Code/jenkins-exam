@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Image Build') {
             parallel {
-                stage('Docker Build Movie Service') {
+                stage('Docker Build Movie') {
                     steps {
                         script {
                             sh '''
@@ -18,11 +18,20 @@ pipeline {
                         }
                     }
                 }
-                stage('Docker Build Cast Service') {
+                stage('Docker Build Cast') {
                     steps {
                         script {
                             sh '''
-                            docker build -t $DOCKER_ID/cast:$DOCKER_TAG ./cast-service
+                            docker build -t $DOCKER_ID/nginx:$DOCKER_TAG ./cast-service
+                            '''
+                        }
+                    }
+                }
+                stage('Docker Build Nginx') {
+                    steps {
+                        script {
+                            sh '''
+                            docker build -t $DOCKER_ID/cast:$DOCKER_TAG ./nginx
                             '''
                         }
                     }
