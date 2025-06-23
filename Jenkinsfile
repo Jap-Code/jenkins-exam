@@ -5,6 +5,7 @@ pipeline {
             environment {
                 ENV = 'dev'
                 RELEASE = 'cast'
+                KUBECONFIG = credentials("config")
             }
             steps {
                 script {
