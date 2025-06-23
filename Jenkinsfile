@@ -23,7 +23,7 @@ pipeline {
                     steps {
                         script {
                             sh '''
-                            docker build -t $DOCKER_ID/cast-service::$DOCKER_TAG ./movie-service
+                            docker build -t $DOCKER_ID/cast-service:$DOCKER_TAG ./movie-service
                             '''
                         }
                     }
