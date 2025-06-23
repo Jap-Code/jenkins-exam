@@ -1,0 +1,36 @@
+{{- if .Values.database.enabled }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-database
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-database
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-database
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-database
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.containerPort }}
+          envFrom:
+            - configMapRef:
+              name: db-configmap
+          volumeMounts:
+            - name: {{ .Release.Name }}-volume
+              mountPath: {{ .Values.mountPath }}
+      volumes: 
+        - name: {{ .Release.Name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc
+---
+{{- end }}

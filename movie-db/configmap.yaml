@@ -1,0 +1,11 @@
+#for database
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ Release.Name }}-confmap
+  labels:
+    app: {{ Release.Name }}
+data:
+  POSTGRES_DB: 
+  POSTGRES_USER:
+  POSTGRES_PASSWORD:

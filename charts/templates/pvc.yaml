@@ -1,13 +1,39 @@
+{{- if .Values.database.enabled }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ Release.Name }}-pvc
+  name: {{ .Release.Name }}-pvc
   labels:
-    app: {{ Release.Name }}
+    app: {{ .Release.Name }}
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: {{ StorageClass.Name }}
+      storage: 2Gi
+  storageClassName: {{ .Values.storageClassName }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-volume
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  storageClassName: {{ .Values.storageClassName }}
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  # hostPath:
+  #   path: /data/postgresql
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-db-storage
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
+{{- end }}
+

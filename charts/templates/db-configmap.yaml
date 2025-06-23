@@ -1,0 +1,14 @@
+#for database
+{{- if .Values.database.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  db-configmap
+  labels:
+    app: {{ .Release.Name }}
+data:
+  POSTGRES_DB: {{ .Release.Name }}-database
+  POSTGRES_USER: {{ .Values.db.user }}
+  POSTGRES_PASSWORD: {{ .Values.db.password }}
+{{- end }}
