@@ -6,49 +6,49 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   nginx.conf: |
-    # server {
-    #     listen 8080;
-
-    #     # Leitet /movie auf /movie/ weiter (optional, aber hilfreich)
-    #     location = /movie {
-    #         return 301 /movie/;
-    #     }
-
-    #     location /movie/ {
-    #         proxy_pass http://movie-service/;  # hier auch den Service-Namen nehmen!
-    #         proxy_set_header Host $host;
-    #         proxy_set_header X-Real-IP $remote_addr;
-    #         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #     }
-
-    #     location = /cast {
-    #         return 301 /cast/;
-    #     }
-
-    #     location /cast/ {
-    #         proxy_pass http://cast-service/;
-    #         proxy_set_header Host $host;
-    #         proxy_set_header X-Real-IP $remote_addr;
-    #         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #     }
-    # }
-    upstream movie {
-        server movie-service:80;
-    }
-
-    upstream cast {
-        server cast-service:80;
-    }
-
     server {
         listen 8080;
 
+        
+        location = /movie {
+            return 301 /movie/;
+        }
+
         location /movie/ {
-            proxy_pass http://movie/;
+            proxy_pass http://movie-service/;  
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        location = /cast {
+            return 301 /cast/;
         }
 
         location /cast/ {
-            proxy_pass http://cast/;
+            proxy_pass http://cast-service/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
     }
+    # upstream movie {
+    #     server movie-service:80;
+    # }
+
+    # upstream cast {
+    #     server cast-service:80;
+    # }
+
+    # server {
+    #     listen 8080;
+
+    #     location /movie/ {
+    #         proxy_pass http://movie/;
+    #     }
+
+    #     location /cast/ {
+    #         proxy_pass http://cast/;
+    #     }
+    # }
 {{- end }}
