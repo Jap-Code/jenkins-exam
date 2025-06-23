@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  db-configmap
+  name:  {{ .Release.Name }}-configmap
   labels:
     app: {{ .Release.Name }}
 data:
