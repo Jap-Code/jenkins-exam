@@ -14,7 +14,7 @@ pipeline {
                     helm upgrade --install ${RELEASE} ./charts \
                         -f values.yaml \
                         -n ${ENV} \
-                        --atmoic
+                        --atomic
                     """
                 }
             }
