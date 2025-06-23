@@ -29,7 +29,7 @@ spec:
       volumes:
         - name: nginx-config-volume
           configMap:
-            name: nginx-configmap
+            name: {{ .Release.Name }}-configmap
 ---
 apiVersion: v1
 kind: PersistentVolume

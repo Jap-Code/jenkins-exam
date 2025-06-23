@@ -1,7 +1,7 @@
 pipeline {
     environment {
         DOCKER_ID = "jan986"
-        DOCKER_TAG = "v0.0.2"                           //"v.0.${BUILD_ID}.0"
+        DOCKER_TAG = "v0.1.0"                           //"v.0.${BUILD_ID}.0"
         DOCKER_PASS = credentials("DOCKER_HUB_PASS")
         KUBECONFIG = credentials("config")
     }
