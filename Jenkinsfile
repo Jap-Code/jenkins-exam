@@ -36,7 +36,7 @@ pipeline {
                         script {
                             sh '''
                             docker login -u $DOCKER_ID -p $DOCKER_PASS
-                            docker push $DOCKER_ID/movie-service:$DOCKER_TAG
+                            docker push $DOCKER_ID/movie:$DOCKER_TAG
                             '''
                         }
                     }
@@ -46,7 +46,7 @@ pipeline {
                         script {
                             sh '''
                             docker login -u $DOCKER_ID -p $DOCKER_PASS
-                            docker push $DOCKER_ID/cast-service:$DOCKER_TAG 
+                            docker push $DOCKER_ID/cast:$DOCKER_TAG 
                             '''
                         }
                     }
@@ -90,6 +90,8 @@ pipeline {
                         }
                     }
                 }
+            }
+            parallel {
                 stage('deploy cast-service') {
                     environment {
                         RELEASE = 'cast'
@@ -122,6 +124,8 @@ pipeline {
                         }
                     }
                 }
+            }
+            parallel {
                 stage('deploy nginx') {
                     environment {
                         RELEASE = 'nginx'

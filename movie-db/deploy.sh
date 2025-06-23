@@ -16,7 +16,6 @@ SERVICE_TYPE=ClusterIP
 
 MOUNT_PATH=/var/lib/postgresql/data/
 
-PVC_EN="true"
 STORAGE_CLASS_NAME="local-path"
 
 DB_USER="admin"
@@ -34,7 +33,6 @@ sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__SERVICE_PORT__|${SERVICE_PORT}|g" \
     -e "s|__SERVICE_TYPE__|${SERVICE_TYPE}|g" \
     -e "s|__MOUNT_PATH__|${MOUNT_PATH}|g" \
-    -e "s|__PVC_EN__|${PVC_EN}|g" \
     -e "s|__STORAGE_CLASS_NAME__|${STORAGE_CLASS_NAME}|g" \
     -e "s|__DB_USER__|${DB_USER}|g" \
     -e "s|__DB_PASSWORD__|${DB_PASSWORD}|g" \
