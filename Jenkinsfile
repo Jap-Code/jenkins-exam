@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Image Push') {
             parallel {
-                stage('Docker Push Movie Service') {
+                stage('Docker Push Movie') {
                     steps {
                         script {
                             sh '''
@@ -50,12 +50,22 @@ pipeline {
                         }
                     }
                 }
-                stage('Docker Push Cast Service') {
+                stage('Docker Push Cast') {
                     steps {
                         script {
                             sh '''
                             docker login -u $DOCKER_ID -p $DOCKER_PASS
                             docker push $DOCKER_ID/cast:$DOCKER_TAG 
+                            '''
+                        }
+                    }
+                }
+                stage('Docker Push Nginx') {
+                    steps {
+                        script {
+                            sh '''
+                            docker login -u $DOCKER_ID -p $DOCKER_PASS
+                            docker push $DOCKER_ID/nginx:$DOCKER_TAG 
                             '''
                         }
                     }
