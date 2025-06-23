@@ -12,4 +12,4 @@ data:
   DATABASE_NAME: {{ .Release.Name }}-database
   DATABASE_USER: {{ .Values.db.user }}
   DATABASE_PASSWORD: {{ .Values.db.password }}
-{{- end}}
+{{- end }}

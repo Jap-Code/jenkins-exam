@@ -26,4 +26,4 @@ spec:
             - configMapRef:
               name: {{ .Values.configMapRef }}
 ---
-{{- end}
+{{- end }}

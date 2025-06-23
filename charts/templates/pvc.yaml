@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ .Release.Name }}-volume
+  name: {{ .Release.Name }}-volume
   labels:
     app: {{ .Release.Name }}
 spec:
