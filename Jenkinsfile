@@ -9,21 +9,20 @@ pipeline {
     stages {
         stage('Image Build') {
             parallel {
-                stage('Docker Build Cast Service') {
-                    steps {
-                        script {
-                            sh '''
-                            docker rm -f jenkins
-                            docker build -t $DOCKER_ID/movie-service:$DOCKER_TAG ./cast-service
-                            '''
-                        }
-                    }
-                }
                 stage('Docker Build Movie Service') {
                     steps {
                         script {
                             sh '''
-                            docker build -t $DOCKER_ID/cast-service:$DOCKER_TAG ./movie-service
+                            docker build -t $DOCKER_ID/movie-service:$DOCKER_TAG ./movie-service
+                            '''
+                        }
+                    }
+                }
+                stage('Docker Build Cast Service') {
+                    steps {
+                        script {
+                            sh '''
+                            docker build -t $DOCKER_ID/cast-service:$DOCKER_TAG ./cast-service
                             '''
                         }
                     }
@@ -32,7 +31,7 @@ pipeline {
         }
         stage('Image Push') {
             parallel {
-                stage('Docker Push Cast Service') {
+                stage('Docker Push Movie Service') {
                     steps {
                         script {
                             sh '''
@@ -42,7 +41,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Docker Push Movie Service') {
+                stage('Docker Push Cast Service') {
                     steps {
                         script {
                             sh '''
