@@ -24,7 +24,7 @@ spec:
           - containerPort: {{ .Values.targetPort }}
           envFrom:
             - configMapRef:
-                name: db-configmap
+                name: {{ .Release.Name }}-configmap
           volumeMounts:
             - name: {{ .Release.Name }}-volume
               mountPath: {{ .Values.mountPath }}
