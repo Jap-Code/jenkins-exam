@@ -6,15 +6,34 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   nginx.conf: |
-    server {
-      listen 8080;
-
-      location /api/v1/movies {
-        proxy_pass http://movie:8000/api/v1/movies;
-      }
-
-      location /api/v1/casts {
-        proxy_pass http://cast:8000/api/v1/casts;
-      }
+    upstream movie {
+        server movie-service:80;
     }
+
+    upstream cast {
+        server cast-service:80;
+    }
+
+    server {
+        listen 8080;
+
+        location /movie/ {
+            proxy_pass http://movie/;
+        }
+
+        location /cast/ {
+            proxy_pass http://cast/;
+        }
+    }
+    # server {
+    #   listen 8080;
+
+    #   location /api/v1/movies {
+    #     proxy_pass http://movie:8000/api/v1/movies;
+    #   }
+
+    #   location /api/v1/casts {
+    #     proxy_pass http://cast:8000/api/v1/casts;
+    #   }
+    # }
 {{- end }}
