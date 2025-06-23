@@ -15,7 +15,7 @@ SERVICE_TYPE=NodePort
 MOUNT_PATH=/var/lib/postgresql/data/
 
 PVC_EN="true"
-STORAGE_CLASS_NAME="local-db-storage"
+STORAGE_CLASS_NAME="local-path"
 
 DB_USER="admin"
 DB_PASSWORD="NoLimit"
