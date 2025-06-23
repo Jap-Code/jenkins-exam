@@ -113,20 +113,20 @@ pipeline {
                         }
                     }
                 }
-            }
-            stage('deploy movie app') {
-                environment {
-                    RELEASE = 'movie'
-                }
-                steps {
-                    script {
-                        sh """
-                        ./movie-service/deploy.sh
-                        helm upgrade --install ${RELEASE} ./charts \
-                            -f values.yaml \
-                            -n ${ENV} \
-                            --atomic
-                        """
+                stage('deploy movie app') {
+                    environment {
+                        RELEASE = 'movie'
+                    }
+                    steps {
+                        script {
+                            sh """
+                            ./movie-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
+                        }
                     }
                 }
             }
