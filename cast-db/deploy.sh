@@ -34,4 +34,4 @@ sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__STORAGE_CLASS_NAME__|${STORAGE_CLASS_NAME}|g" \
     -e "s|__DB_USER__|${DB_USER}|g" \
     -e "s|__DB_PASSWORD__|${DB_PASSWORD}|g" \
-    values-template.yaml > values.yaml
+    ./charts/values-template.yaml > values.yaml
