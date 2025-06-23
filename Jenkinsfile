@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('deploy cast db') {
             environment {
-                SERVICE = 'cast'
+                RELEASE = 'cast'
             }
             steps {
                 script {
-                    sh '''
+                    sh """
                     ./cast-db/delpoy.sh
-                    helm upgrade --install $SERVICE ./charts \
+                    helm upgrade --install ${RELEASE} ./charts \
                         -f values.yaml
-                        -n $ENV \
+                        -n ${ENV} \
                         --atmoic
-                    '''
+                    """
                 }
             }
         }
