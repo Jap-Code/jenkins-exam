@@ -5,7 +5,7 @@ APP_ENABLE="false"
 
 REPLICA_COUNT=1
 IMAGE="postgres"
-TAG="12.1-apline"
+TAG="12.1-alpine"
 IMAGE_PULL_POL="IfNotPresent"
 CONT_PORT=80
 
