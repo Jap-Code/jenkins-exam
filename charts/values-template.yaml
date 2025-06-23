@@ -6,7 +6,7 @@ app:
   enabled: __APP_ENABLE__
 
 nginx:
-  enabled: __NGINX_EBABLE__
+  enabled: __NGINX_ENABLE__
 
 replicaCount: __REPLICA_COUNT__
 image: 
