@@ -7,7 +7,7 @@ image:
   repository: "__IMAGE__"
   tag: "__TAG__"
   pullPolicy: "__IMAGE_PULL_POL__"
-containerPort: "__CONT_PORT__"
+targetPort: "__CONT_PORT__"
 
 
 #Service

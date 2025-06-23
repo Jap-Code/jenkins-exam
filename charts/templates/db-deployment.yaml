@@ -3,25 +3,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-database
+  name: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-database
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-database
+        app: {{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Release.Name }}-database
+        - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-          - containerPort: {{ .Values.containerPort }}
+          - containerPort: {{ .Values.targetPort }}
           envFrom:
             - configMapRef:
                 name: db-configmap

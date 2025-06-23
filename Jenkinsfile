@@ -4,7 +4,7 @@ pipeline {
         stage('deploy cast db') {
             environment {
                 ENV = 'dev'
-                RELEASE = 'cast'
+                RELEASE = 'cast-db'
                 KUBECONFIG = credentials("config")
             }
             steps {

@@ -9,7 +9,7 @@ metadata:
     app: {{ .Release.Name }}
 data:
   DATABASE_HOST: {{ .Release.Name }}-db-service
-  DATABASE_NAME: {{ .Release.Name }}-database
+  DATABASE_NAME: {{ .Release.Name }}-db
   DATABASE_USER: {{ .Values.db.user }}
   DATABASE_PASSWORD: {{ .Values.db.password }}
 {{- end }}

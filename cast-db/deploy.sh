@@ -6,10 +6,10 @@ REPLICA_COUNT=1
 IMAGE="postgres"
 TAG="12.1-alpine"
 IMAGE_PULL_POL="IfNotPresent"
-CONT_PORT=5432
+TARGET_PORT=5432
 
 SERVICE_PORT=5432
-SERVICE_TYPE=NodePort
+SERVICE_TYPE=ClusterIP
 
 MOUNT_PATH=/var/lib/postgresql/data/
 
@@ -24,7 +24,7 @@ sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__IMAGE__|${IMAGE}|g" \
     -e "s|__TAG__|${TAG}|g" \
     -e "s|__IMAGE_PULL_POL__|${IMAGE_PULL_POL}|g" \
-    -e "s|__CONT_PORT__|${CONT_PORT}|g" \
+    -e "s|__TARGET_PORT__|${TARGET_PORT}|g" \
     -e "s|__SERVICE_PORT__|${SERVICE_PORT}|g" \
     -e "s|__SERVICE_TYPE__|${SERVICE_TYPE}|g" \
     -e "s|__MOUNT_PATH__|${MOUNT_PATH}|g" \
