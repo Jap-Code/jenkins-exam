@@ -1,5 +1,5 @@
 #for application
-{{- if .Values.application.enabled }}
+{{- if .Values.database.disabled == false }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -8,7 +8,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}
 data:
-  DATABASE_HOST: {{ .Release.Name }}-service
+  DATABASE_HOST: {{ .Release.Name }}-db-service
   DATABASE_NAME: {{ .Release.Name }}-database
   DATABASE_USER: {{ .Values.db.user }}
   DATABASE_PASSWORD: {{ .Values.db.password }}

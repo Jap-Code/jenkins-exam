@@ -2,11 +2,6 @@
 database:
   enabled: "__DB_ENABLE__"
 
-#true to take db deploy.yaml
-application:
-  enabled: "__APP_ENABLE__"
-
-
 replicaCount: "__REPLICA_COUNT__"
 image: 
   repository: "__IMAGE__"

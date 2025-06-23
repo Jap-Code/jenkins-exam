@@ -1,15 +1,14 @@
 #!/bin/bash
 
 DB_ENABLE="true"
-APP_ENABLE="false"
 
 REPLICA_COUNT=1
 IMAGE="postgres"
 TAG="12.1-alpine"
 IMAGE_PULL_POL="IfNotPresent"
-CONT_PORT=80
+CONT_PORT=5432
 
-SERVICE_PORT=80
+SERVICE_PORT=5432
 SERVICE_TYPE=NodePort
 
 MOUNT_PATH=/var/lib/postgresql/data/
@@ -21,7 +20,6 @@ DB_USER="admin"
 DB_PASSWORD="NoLimit"
 
 sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
-    -e "s|__APP_ENABLE__|${APP_ENABLE}|g" \
     -e "s|__REPLICA_COUNT__|${REPLICA_COUNT}|g" \
     -e "s|__IMAGE__|${IMAGE}|g" \
     -e "s|__TAG__|${TAG}|g" \
