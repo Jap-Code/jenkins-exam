@@ -12,7 +12,7 @@ pipeline {
                     sh """
                     ./cast-db/deploy.sh
                     helm upgrade --install ${RELEASE} ./charts \
-                        -f values.yaml
+                        -f values.yaml \
                         -n ${ENV} \
                         --atmoic
                     """
