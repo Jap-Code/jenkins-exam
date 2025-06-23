@@ -53,7 +53,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy:dev') {
+        stage('deploy-db:dev') {
             environment {
                 ENV = 'dev'
             }
@@ -91,8 +91,12 @@ pipeline {
                     }
                 }
             }
+        stage('deploy-app:dev') {
+            environment {
+                ENV = 'dev'
+            }
             parallel {
-                stage('deploy cast-service') {
+                stage('deploy cast app') {
                     environment {
                         RELEASE = 'cast'
                     }
@@ -108,7 +112,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy movie-service') {
+                stage('deploy movie app') {
                     environment {
                         RELEASE = 'movie'
                     }
@@ -125,22 +129,20 @@ pipeline {
                     }
                 }
             }
-            parallel {
-                stage('deploy nginx') {
-                    environment {
-                        RELEASE = 'nginx'
-                    }
-                    steps {
-                        script {
-                            sh """
-                            ./nginx/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """
-                        }
-                    }
+        stage('deploy-nginx:dev') {
+            environment {
+                ENV = 'dev'
+                RELEASE = 'nginx'
+            }
+            steps {
+                script {
+                    sh """
+                    ./nginx/deploy.sh
+                    helm upgrade --install ${RELEASE} ./charts \
+                        -f values.yaml \
+                        -n ${ENV} \
+                        --atomic
+                    """ 
                 }
             }
         }
