@@ -57,25 +57,23 @@ pipeline {
         //     }
         // }
         stage('deploy:dev') {
-            parallel {
+            environment {
+                ENV = 'dev'
+                KUBECONFIG = credentials("config")
+            }
+            stage('deploy cast db') {
                 environment {
-                    ENV = 'dev'
-                    KUBECONFIG = credentials("config")
+                    SERVICE = 'cast'
                 }
-                stage('deploy cast db') {
-                    environment {
-                        SERVICE = 'cast'
-                    }
-                    steps {
-                        script {
-                            sh '''
-                            ./cast-db/delpoy.sh
-                            helm upgrade --install $SERVICE ./charts \
-                                -f values.yaml
-                                -n $ENV \
-                                --atmoic
-                            '''
-                        }
+                steps {
+                    script {
+                        sh '''
+                        ./cast-db/delpoy.sh
+                        helm upgrade --install $SERVICE ./charts \
+                            -f values.yaml
+                            -n $ENV \
+                            --atmoic
+                        '''
                     }
                 }
             }
