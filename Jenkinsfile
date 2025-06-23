@@ -91,14 +91,14 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy movie-service') {
+                stage('deploy cast-service') {
                     environment {
-                        RELEASE = 'movie'
+                        RELEASE = 'cast'
                     }
                     steps {
                         script {
                             sh """
-                            ./movie-service/deploy.sh
+                            ./cast-service/deploy.sh
                             helm upgrade --install ${RELEASE} ./charts \
                                 -f values.yaml \
                                 -n ${ENV} \
@@ -107,14 +107,14 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy cast-service') {
+                stage('deploy movie-service') {
                     environment {
-                        RELEASE = 'cast'
+                        RELEASE = 'movie'
                     }
                     steps {
                         script {
                             sh """
-                            .cast-service/deploy.sh
+                            ./movie-service/deploy.sh
                             helm upgrade --install ${RELEASE} ./charts \
                                 -f values.yaml \
                                 -n ${ENV} \
