@@ -28,12 +28,5 @@ spec:
     - ReadWriteOnce
   hostPath:
     path:  /mnt/data
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: local-db-storage
-provisioner: rancher.io/local-path
-volumeBindingMode: WaitForFirstConsumer
 {{- end }}
 
