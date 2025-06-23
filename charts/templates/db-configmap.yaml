@@ -1,4 +1,3 @@
-#for database
 {{- if .Values.database.enabled }}
 ---
 apiVersion: v1

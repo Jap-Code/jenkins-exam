@@ -1,8 +1,14 @@
 #true to take app deploy.yaml
 database:
-  enabled: "__DB_ENABLE__"
+  enabled: __DB_ENABLE__
 
-replicaCount: "__REPLICA_COUNT__"
+app:
+  enabled: __APP_ENABLE__
+
+nginx:
+  enabled: __NGINX_EBABLE__
+
+replicaCount: __REPLICA_COUNT__
 image: 
   repository: "__IMAGE__"
   tag: "__TAG__"
@@ -12,8 +18,8 @@ targetPort: "__TARGET_PORT__"
 
 #Service
 service:
-  port: "__SERVICE_PORT__"
-  type: "__SERVICE_TYPE__"
+  port: __SERVICE_PORT__
+  type: __SERVICE_TYPE__
 
 #Volume mount
 mountName: "__MOUNT_NAME__"

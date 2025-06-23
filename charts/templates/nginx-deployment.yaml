@@ -1,0 +1,48 @@
+{{- if .Values.nginx.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.targetPort }}
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-configmap
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-volume
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  storageClassName: {{ .Values.storageClassName }}
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path:  /mnt/data
+{{- end }}

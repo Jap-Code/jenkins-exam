@@ -1,22 +1,18 @@
 #!/bin/bash
 
-DB_ENABLE=true
-APP_ENABLE=false
+DB_ENABLE=false
+APP_ENABLE=true
 NGINX_ENABLE=false
 
 
 REPLICA_COUNT=1
-IMAGE="postgres"
-TAG="12.1-alpine"
+IMAGE="${DOCKER_ID}/${RELEASE}"
+TAG="${DOCKER_TAG}"
 IMAGE_PULL_POL="IfNotPresent"
-TARGET_PORT=5432
+TARGET_PORT=80
 
-SERVICE_PORT=5432
+SERVICE_PORT=80
 SERVICE_TYPE=ClusterIP
-
-MOUNT_PATH=/var/lib/postgresql/data/
-
-STORAGE_CLASS_NAME="local-path"
 
 DB_USER="admin"
 DB_PASSWORD="credential"
@@ -32,8 +28,6 @@ sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__TARGET_PORT__|${TARGET_PORT}|g" \
     -e "s|__SERVICE_PORT__|${SERVICE_PORT}|g" \
     -e "s|__SERVICE_TYPE__|${SERVICE_TYPE}|g" \
-    -e "s|__MOUNT_PATH__|${MOUNT_PATH}|g" \
-    -e "s|__STORAGE_CLASS_NAME__|${STORAGE_CLASS_NAME}|g" \
     -e "s|__DB_USER__|${DB_USER}|g" \
     -e "s|__DB_PASSWORD__|${DB_PASSWORD}|g" \
     ./charts/values-template.yaml > values.yaml
