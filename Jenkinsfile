@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('deploy cast db') {
             environment {
+                ENV = 'dev'
                 RELEASE = 'cast'
             }
             steps {
