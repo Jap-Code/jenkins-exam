@@ -2,6 +2,7 @@ pipeline {
     environment {
         DOCKER_ID = "jan986"
         DOCKER_TAG = "v.0.${BUILD_ID}.0"
+        DOCKER_PASS = credentials("DOCKER_HUB_PASS")
         KUBECONFIG = credentials("config")
     }
     agent any
@@ -30,9 +31,6 @@ pipeline {
             }
         }
         stage('Image Push') {
-            environment {
-                DOCKER_PASS = credentials("DOCKER_HUB_PASS")
-            }
             parallel {
                 stage('Docker Push Cast Service') {
                     steps {
@@ -57,10 +55,10 @@ pipeline {
             }
         }
         stage('deploy:dev') {
+            environment {
+                ENV = 'dev'
+            }
             parallel {
-                environment {
-                    ENV = 'dev'
-                }
                 stage('deploy cast-db') {
                     environment {
                         RELEASE = 'cast-db'
