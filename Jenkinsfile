@@ -1,14 +1,3 @@
-
-def Deploy = { PATH, RELEASE ->
-    sh """
-    ./${PATH}/deploy.sh
-    helm upgrade --install ${RELEASE} ./charts \
-        -f values.yaml \
-        -n ${ENV} \
-        --atomic
-    """
-}
-
 pipeline {
     environment {
         DOCKER_ID = "jan986"
@@ -89,16 +78,34 @@ pipeline {
             }
             parallel {
                 stage('deploy cast-db') {
+                    environment {
+                        RELEASE = 'cast-db'
+                    }
                     steps {
                         script {
-                            Deploy('cast-db', 'cast-db')
+                            sh """
+                            ./cast-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie-db') {
+                    environment {
+                        RELEASE = 'movie-db'
+                    }
                     steps {
                         script {
-                            Deploy('movie-db', 'movie-db')
+                            sh """
+                            ./movie-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
@@ -109,7 +116,6 @@ pipeline {
                 echo "Waiting for database to be ready..."
 
                 script {
-                    // Versucht max. 30 mal, alle 5 Sekunden eine Verbindung zu prüfen
                     def retries = 30
                     def success = false
 
@@ -140,27 +146,51 @@ pipeline {
             }
             parallel {
                 stage('deploy cast app') {
+                    environment {
+                        RELEASE = 'cast'
+                    }
                     steps {
-                        sh """
-                        ./cast-service/deploy.sh
-                        helm upgrade --install cast ./charts \
-                            -f values.yaml \
-                            -n ${ENV} \
-                            --atomic
-                        """
+                        script {
+                            sh """
+                            ./cast-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
+                        }
                     }
                 }
                 stage('deploy movie app') {
+                    environment {
+                        RELEASE = 'movie'
+                    }
                     steps {
                         script {
-                            Deploy('movie-service', 'movie')
+                            sh """
+                            ./movie-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy-nginx') {
+                    environment {
+                        ENV = 'dev'
+                        RELEASE = 'nginx'
+                    }
                     steps {
                         script {
-                            Deploy('nginx', 'nginx')
+                            sh """
+                            ./nginx/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """ 
                         }
                     }
                 }
@@ -172,17 +202,64 @@ pipeline {
             }
             parallel {
                 stage('deploy cast-db') {
+                    environment {
+                        RELEASE = 'cast-db'
+                    }
                     steps {
                         script {
-                            Deploy('cast-db', 'cast-db')
+                            sh """
+                            ./cast-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie-db') {
+                    environment {
+                        RELEASE = 'movie-db'
+                    }
                     steps {
                         script {
-                            Deploy('movie-db', 'movie-db')
+                            sh """
+                            ./movie-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
+                    }
+                }
+            }
+        }
+        stage('Wait for Database') {
+            steps {
+                echo "Waiting for database to be ready..."
+
+                script {
+                    def retries = 30
+                    def success = false
+
+                    for (int i = 0; i < retries; i++) {
+                        def result = sh(
+                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
+                            returnStatus: true
+                        )
+                        if (result == 0) {
+                            echo "Database is ready!"
+                            success = true
+                            break
+                        } else {
+                            echo "Database not ready yet. Waiting 5 seconds..."
+                            sleep 5
+                        }
+                    }
+
+                    if (!success) {
+                        error("Database did not become ready in time!")
                     }
                 }
             }
@@ -193,23 +270,51 @@ pipeline {
             }
             parallel {
                 stage('deploy cast app') {
+                    environment {
+                        RELEASE = 'cast'
+                    }
                     steps {
                         script {
-                            Deploy('cast-service', 'cast')
+                            sh """
+                            ./cast-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie app') {
+                    environment {
+                        RELEASE = 'movie'
+                    }
                     steps {
                         script {
-                            Deploy('movie-service', 'movie')
+                            sh """
+                            ./movie-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy-nginx') {
+                    environment {
+                        ENV = 'dev'
+                        RELEASE = 'nginx'
+                    }
                     steps {
                         script {
-                            Deploy('nginx', 'nginx')
+                            sh """
+                            ./nginx/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """ 
                         }
                     }
                 }
@@ -221,17 +326,64 @@ pipeline {
             }
             parallel {
                 stage('deploy cast-db') {
+                    environment {
+                        RELEASE = 'cast-db'
+                    }
                     steps {
                         script {
-                            Deploy('cast-db', 'cast-db')
+                            sh """
+                            ./cast-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie-db') {
+                    environment {
+                        RELEASE = 'movie-db'
+                    }
                     steps {
                         script {
-                            Deploy('movie-db', 'movie-db')
+                            sh """
+                            ./movie-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
+                    }
+                }
+            }
+        }
+        stage('Wait for Database') {
+            steps {
+                echo "Waiting for database to be ready..."
+
+                script {
+                    def retries = 30
+                    def success = false
+
+                    for (int i = 0; i < retries; i++) {
+                        def result = sh(
+                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
+                            returnStatus: true
+                        )
+                        if (result == 0) {
+                            echo "Database is ready!"
+                            success = true
+                            break
+                        } else {
+                            echo "Database not ready yet. Waiting 5 seconds..."
+                            sleep 5
+                        }
+                    }
+
+                    if (!success) {
+                        error("Database did not become ready in time!")
                     }
                 }
             }
@@ -242,23 +394,51 @@ pipeline {
             }
             parallel {
                 stage('deploy cast app') {
+                    environment {
+                        RELEASE = 'cast'
+                    }
                     steps {
                         script {
-                            Deploy('cast-service', 'cast')
+                            sh """
+                            ./cast-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie app') {
+                    environment {
+                        RELEASE = 'movie'
+                    }
                     steps {
                         script {
-                            Deploy('movie-service', 'movie')
+                            sh """
+                            ./movie-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy-nginx') {
+                    environment {
+                        ENV = 'dev'
+                        RELEASE = 'nginx'
+                    }
                     steps {
                         script {
-                            Deploy('nginx', 'nginx')
+                            sh """
+                            ./nginx/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """ 
                         }
                     }
                 }
@@ -276,18 +456,65 @@ pipeline {
                 }
             parallel {
                 stage('deploy cast-db') {
+                    environment {
+                        RELEASE = 'cast-db'
+                    }
                     steps {
                         input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
-                            Deploy('cast-db', 'cast-db')
+                            sh """
+                            ./cast-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie-db') {
+                    environment {
+                        RELEASE = 'movie-db'
+                    }
                     steps {
                         script {
-                            Deploy('movie-db', 'movie-db')
+                            sh """
+                            ./movie-db/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
+                    }
+                }
+            }
+        }
+        stage('Wait for Database') {
+            steps {
+                echo "Waiting for database to be ready..."
+
+                script {
+                    def retries = 30
+                    def success = false
+
+                    for (int i = 0; i < retries; i++) {
+                        def result = sh(
+                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
+                            returnStatus: true
+                        )
+                        if (result == 0) {
+                            echo "Database is ready!"
+                            success = true
+                            break
+                        } else {
+                            echo "Database not ready yet. Waiting 5 seconds..."
+                            sleep 5
+                        }
+                    }
+
+                    if (!success) {
+                        error("Database did not become ready in time!")
                     }
                 }
             }
@@ -304,28 +531,58 @@ pipeline {
                 }
             parallel {
                 stage('deploy cast app') {
+                    environment {
+                        RELEASE = 'cast'
+                    }
                     steps {
                         input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
-                            Deploy('cast-service', 'cast')
+                            sh """
+                            ./cast-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy movie app') {
+                    environment {
+                        RELEASE = 'movie'
+                    }
                     steps {
                         script {
-                            Deploy('movie-service', 'movie')
+                            sh """
+                            ./movie-service/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """
                         }
                     }
                 }
                 stage('deploy-nginx') {
+                    environment {
+                        ENV = 'dev'
+                        RELEASE = 'nginx'
+                    }
                     steps {
                         script {
-                            Deploy('nginx', 'nginx')
+                            sh """
+                            ./nginx/deploy.sh
+                            helm upgrade --install ${RELEASE} ./charts \
+                                -f values.yaml \
+                                -n ${ENV} \
+                                --atomic
+                            """ 
                         }
                     }
                 }
             }
         }
     }
-}     
+}
+
+  
