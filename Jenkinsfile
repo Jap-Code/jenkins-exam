@@ -111,35 +111,6 @@ pipeline {
                 }
             }
         }
-        stage('Wait for database dev') {
-            steps {
-                echo "Waiting for database to be ready..."
-
-                script {
-                    def retries = 30
-                    def success = false
-
-                    for (int i = 0; i < retries; i++) {
-                        def result = sh(
-                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
-                            returnStatus: true
-                        )
-                        if (result == 0) {
-                            echo "Database is ready!"
-                            success = true
-                            break
-                        } else {
-                            echo "Database not ready yet. Waiting 5 seconds..."
-                            sleep 5
-                        }
-                    }
-
-                    if (!success) {
-                        error("Database did not become ready in time!")
-                    }
-                }
-            }
-        }
         stage('deploy-app:dev') {
             environment {
                 ENV = 'dev'
@@ -235,35 +206,6 @@ pipeline {
                 }
             }
         }
-        stage('Wait for database qa') {
-            steps {
-                echo "Waiting for database to be ready..."
-
-                script {
-                    def retries = 30
-                    def success = false
-
-                    for (int i = 0; i < retries; i++) {
-                        def result = sh(
-                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
-                            returnStatus: true
-                        )
-                        if (result == 0) {
-                            echo "Database is ready!"
-                            success = true
-                            break
-                        } else {
-                            echo "Database not ready yet. Waiting 5 seconds..."
-                            sleep 5
-                        }
-                    }
-
-                    if (!success) {
-                        error("Database did not become ready in time!")
-                    }
-                }
-            }
-        }
         stage('deploy-app:qa') {
             environment {
                 ENV = 'qa'
@@ -355,35 +297,6 @@ pipeline {
                                 --atomic
                             """
                         }
-                    }
-                }
-            }
-        }
-        stage('Wait for database staging') {
-            steps {
-                echo "Waiting for database to be ready..."
-
-                script {
-                    def retries = 30
-                    def success = false
-
-                    for (int i = 0; i < retries; i++) {
-                        def result = sh(
-                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
-                            returnStatus: true
-                        )
-                        if (result == 0) {
-                            echo "Database is ready!"
-                            success = true
-                            break
-                        } else {
-                            echo "Database not ready yet. Waiting 5 seconds..."
-                            sleep 5
-                        }
-                    }
-
-                    if (!success) {
-                        error("Database did not become ready in time!")
                     }
                 }
             }
@@ -490,35 +403,6 @@ pipeline {
                                 --atomic
                             """
                         }
-                    }
-                }
-            }
-        }
-        stage('Wait for Database prod') {
-            steps {
-                echo "Waiting for database to be ready..."
-
-                script {
-                    def retries = 30
-                    def success = false
-
-                    for (int i = 0; i < retries; i++) {
-                        def result = sh(
-                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
-                            returnStatus: true
-                        )
-                        if (result == 0) {
-                            echo "Database is ready!"
-                            success = true
-                            break
-                        } else {
-                            echo "Database not ready yet. Waiting 5 seconds..."
-                            sleep 5
-                        }
-                    }
-
-                    if (!success) {
-                        error("Database did not become ready in time!")
                     }
                 }
             }
