@@ -1,3 +1,14 @@
+
+def Deploy = { RELEASE, PATH ->
+    sh """
+    ./${PATH}/deploy.sh
+    helm upgrade --install ${RELEASE} ./charts \
+        -f values.yaml \
+        -n ${ENV} \
+        --atomic
+    """
+}
+
 pipeline {
     environment {
         DOCKER_ID = "jan986"
@@ -7,21 +18,6 @@ pipeline {
     }
     agent any
     stages {
-        stage('Init') {
-            steps {
-                script {
-                    def Deploy = { RELEASE, PATH ->
-                        sh """
-                        ./${PATH}/deploy.sh
-                        helm upgrade --install ${RELEASE} ./charts \
-                            -f values.yaml \
-                            -n ${ENV} \
-                            --atomic
-                        """
-                    }
-                }
-            }
-        }
         stage('Image Build') {
             parallel {
                 stage('Docker Build Movie') {
@@ -127,7 +123,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy-nginx:dev') {
+                stage('deploy-nginx') {
                     steps {
                         script {
                             Deploy('nginx', 'nginx')
@@ -176,7 +172,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy-nginx:dev') {
+                stage('deploy-nginx') {
                     steps {
                         script {
                             Deploy('nginx', 'nginx')
@@ -225,7 +221,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy-nginx:dev') {
+                stage('deploy-nginx') {
                     steps {
                         script {
                             Deploy('nginx', 'nginx')
@@ -288,7 +284,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy-nginx:dev') {
+                stage('deploy-nginx') {
                     steps {
                         script {
                             Deploy('nginx', 'nginx')
