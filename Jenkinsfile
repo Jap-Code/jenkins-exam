@@ -236,7 +236,7 @@ pipeline {
         }
         stage('deploy-db:prod') {
             when {
-                branch: 'main'
+                branch 'main'
             }
             environment {
                 ENV = 'prod'
@@ -264,7 +264,7 @@ pipeline {
         }
         stage('deploy-app:prod') {
             when {
-                branch: 'main'
+                branch 'main'
             }
             environment {
                 ENV = 'prod'
