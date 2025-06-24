@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.casts import casts
-from app.api.db import db,metadata, database, engine
+from app.api.db import metadata, database, engine
 
 metadata.create_all(engine)
 
@@ -8,7 +8,6 @@ app = FastAPI(openapi_url="/api/v1/casts/openapi.json", docs_url="/api/v1/casts/
 
 @app.on_event("startup")
 async def startup():
-    db.init_db()
     await database.connect()
 
 @app.on_event("shutdown")
