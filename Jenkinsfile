@@ -7,6 +7,11 @@ pipeline {
     }
     agent any
     stages {
+        stage('Debug Info') {
+            steps {
+                echo "Branch name: ${env.BRANCH_NAME}"
+            }
+        }
         stage('Image Build') {
             parallel {
                 stage('Docker Build Movie') {
