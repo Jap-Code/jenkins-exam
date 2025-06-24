@@ -180,22 +180,22 @@ pipeline {
                 }
             }
         }
-        // stage('deploy-nginx:dev') {
-        //     environment {
-        //         ENV = 'dev'
-        //         RELEASE = 'nginx'
-        //     }
-        //     steps {
-        //         script {
-        //             sh """
-        //             ./nginx/deploy.sh
-        //             helm upgrade --install ${RELEASE} ./charts \
-        //                 -f values.yaml \
-        //                 -n ${ENV} \
-        //                 --atomic
-        //             """ 
-        //         }
-        //     }
-        // }
+        stage('deploy-nginx:dev') {
+            environment {
+                ENV = 'dev'
+                RELEASE = 'nginx'
+            }
+            steps {
+                script {
+                    sh """
+                    ./nginx/deploy.sh
+                    helm upgrade --install ${RELEASE} ./charts \
+                        -f values.yaml \
+                        -n ${ENV} \
+                        --atomic
+                    """ 
+                }
+            }
+        }
     }
 }
