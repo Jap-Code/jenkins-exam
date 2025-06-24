@@ -26,11 +26,11 @@ spec:
             - configMapRef:
                 name: {{ .Release.Name }}-configmap
           volumeMounts:
-            - name: {{ .Release.Name }}-volume
+            - name: {{ .Release.Name }}-{{ .Release.Namespace }}-volume
               mountPath: {{ .Values.mountPath }}
       volumes: 
-        - name: {{ .Release.Name }}-volume
+        - name: {{ .Release.Name }}-{{ .Release.Namespace }}-volume
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-pvc
+            claimName: {{ .Release.Name }}-{{ .Release.Namespace }}-pvc
 ---
 {{- end }}
