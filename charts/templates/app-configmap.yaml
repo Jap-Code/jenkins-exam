@@ -11,5 +11,5 @@ data:
   DATABASE_NAME: {{ .Release.Name }}-db
   DATABASE_USER: {{ .Values.db.user }}
   DATABASE_PASSWORD: {{ .Values.db.password }}
-  DATABASE_URI: "postgresql://{{ .Values.db.user }}:{{ .Values.db.password }}@{{ .Release.Name }}-db-service:5432/{{ .Release.Name }}-db"
+  DATABASE_URI: "postgresql://{{ .Values.db.user }}:{{ .Values.db.password }}@{{ .Release.Name }}-db-service/{{ .Release.Name }}-db"
 {{- end }}
