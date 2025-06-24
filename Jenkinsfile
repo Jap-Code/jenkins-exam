@@ -358,9 +358,6 @@ pipeline {
             }
         }
         stage('confirm prod deploy') {
-            when {
-                branch 'main'
-            }
             steps {
                 input message: 'Do you want to deploy in production?', ok: 'Yes!'
             }
@@ -369,9 +366,6 @@ pipeline {
                 }
         }
         stage('deploy-db:prod') {
-            when {
-                branch 'main'
-            }
             parallel {
                 stage('deploy cast-db') {
                     environment {
@@ -408,9 +402,6 @@ pipeline {
             }
         }
         stage('deploy-app:prod') {
-            when {
-                branch 'main'
-            }
             environment {
                 ENV = 'prod'
             }
