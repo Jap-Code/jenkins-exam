@@ -242,8 +242,7 @@ pipeline {
                 ENV = 'prod'
             }
             options {
-                timeout {
-                    (time: 15, unit: "MINUTES") 
+                timeout(time: 15, unit: "MINUTES") 
                 }
             parallel {
                 stage('deploy cast-db') {
@@ -271,8 +270,7 @@ pipeline {
                 ENV = 'prod'
             }
             options {
-                timeout {
-                    (time: 15, unit: "MINUTES") 
+                timeout(time: 15, unit: "MINUTES") 
                 }
             parallel {
                 stage('deploy cast app') {
