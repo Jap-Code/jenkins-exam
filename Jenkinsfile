@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         script {
                             sh '''
-                            docker build -t $DOCKER_ID/nginx:$DOCKER_TAG ./cast-service
+                            docker build -t $DOCKER_ID/cast:$DOCKER_TAG ./cast-service
                             '''
                         }
                     }
@@ -31,7 +31,7 @@ pipeline {
                     steps {
                         script {
                             sh '''
-                            docker build -t $DOCKER_ID/cast:$DOCKER_TAG ./nginx
+                            docker build -t $DOCKER_ID/nginx:$DOCKER_TAG ./nginx
                             '''
                         }
                     }
