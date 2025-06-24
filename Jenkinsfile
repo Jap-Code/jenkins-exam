@@ -116,7 +116,7 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service'
+                            Deploy('cast', 'cast-service')
                         }
                     }
                 }
@@ -165,7 +165,7 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service'
+                            Deploy('cast', 'cast-service')
                         }
                     }
                 }
@@ -214,7 +214,7 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service'
+                            Deploy('cast', 'cast-service')
                         }
                     }
                 }
@@ -279,7 +279,7 @@ pipeline {
                     steps {
                         input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
-                            Deploy('cast', 'cast-service'
+                            Deploy('cast', 'cast-service')
                         }
                     }
                 }
