@@ -360,6 +360,9 @@ pipeline {
             }
         }
         stage('deploy db:prod') {
+            when {
+                branch 'main'
+            }
             environment {
                 ENV = 'prod'
             }
@@ -397,11 +400,13 @@ pipeline {
                     }
                 }
                 stage('deploy nginx:prod') {
+                    when {
+                        branch 'main'
+                    }
                     environment {
                         RELEASE = 'nginx'
                         ENV = 'prod'
                     }
-                    steps {
                         script {
                             sh """
                             ./nginx/deploy.sh
@@ -416,6 +421,9 @@ pipeline {
             }
         }
         stage('deploy cast-app:prod') {
+            when {
+                branch 'main'
+            }
             environment {
                 RELEASE = 'cast'
                 ENV = 'prod'
@@ -436,6 +444,9 @@ pipeline {
             }
         }
         stage('deploy movie-app:prod') {
+            when {
+                branch 'main'
+            }
             environment {
                 RELEASE = 'movie'
                 ENV = 'prod'
