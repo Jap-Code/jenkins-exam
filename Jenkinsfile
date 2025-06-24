@@ -444,9 +444,12 @@ pipeline {
                 }
             }
         }
-        stage('deploy-db:prod') {
+        stage('confirm prod deploy') {
             when {
                 branch 'main'
+            }
+            steps {
+                input message: 'Do you want to deploy in production?', ok: 'Yes!'
             }
             environment {
                 ENV = 'prod'
@@ -454,13 +457,16 @@ pipeline {
             options {
                 timeout(time: 15, unit: "MINUTES") 
                 }
+        stage('deploy-db:prod') {
+            when {
+                branch 'main'
+            }
             parallel {
                 stage('deploy cast-db') {
                     environment {
                         RELEASE = 'cast-db'
                     }
                     steps {
-                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
                             sh """
                             ./cast-db/deploy.sh
@@ -526,16 +532,12 @@ pipeline {
             environment {
                 ENV = 'prod'
             }
-            options {
-                timeout(time: 15, unit: "MINUTES") 
-                }
             parallel {
                 stage('deploy cast app') {
                     environment {
                         RELEASE = 'cast'
                     }
                     steps {
-                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
                             sh """
                             ./cast-service/deploy.sh
