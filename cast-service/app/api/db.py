@@ -5,7 +5,10 @@ from sqlalchemy import (Column, Integer, MetaData, String, Table,
 
 from databases import Database
 
-DATABASE_URI = os.getenv('DATABASE_URI')
+DATABASE_URI = os.getenv(
+    'DATABASE_URI',
+    'postgresql://admin:credential@cast-db-service:5432/cast-db'
+    )
 
 engine = create_engine(DATABASE_URI)
 metadata = MetaData()

@@ -5,7 +5,10 @@ from sqlalchemy import (Column, DateTime, Integer, MetaData, String, Table,
 
 from databases import Database
 
-DATABASE_URI = os.getenv('DATABASE_URI')
+DATABASE_URI = os.getenv(
+    'DATABASE_URI',
+    'postgresql://admin:credential@movie-db-service:5432/movie-db'
+    )
 
 engine = create_engine(DATABASE_URI)
 metadata = MetaData()
@@ -21,6 +24,3 @@ movies = Table(
 )
 
 database = Database(DATABASE_URI)
-
-engine = None
-database = None
