@@ -366,6 +366,9 @@ pipeline {
                 }
         }
         stage('deploy-db:prod') {
+            environment {
+                ENV = 'prod'
+            }
             parallel {
                 stage('deploy cast-db') {
                     environment {
