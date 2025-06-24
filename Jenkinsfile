@@ -12,7 +12,7 @@ def Deploy = { RELEASE, PATH ->
 pipeline {
     environment {
         DOCKER_ID = "jan986"
-        DOCKER_TAG = "v1" //"v.0.${BUILD_ID}"
+        DOCKER_TAG = "v.0.${BUILD_ID}"
         DOCKER_PASS = credentials("DOCKER_HUB_PASS")
         KUBECONFIG = credentials("config")
     }
