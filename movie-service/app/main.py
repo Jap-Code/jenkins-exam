@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.movies import movies
-from app.api.db import metadata, database, engine
+from app.api.db import db, metadata, database, engine
 
 metadata.create_all(engine)
 
@@ -8,6 +8,7 @@ app = FastAPI(openapi_url="/api/v1/movies/openapi.json", docs_url="/api/v1/movie
 
 @app.on_event("startup")
 async def startup():
+    db.init()
     await database.connect()
 
 @app.on_event("shutdown")
