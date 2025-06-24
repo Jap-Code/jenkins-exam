@@ -361,43 +361,41 @@ pipeline {
             environment {
                 ENV = 'prod'
             }
-            parallel {
-                stage('deploy cast-db') {
-                    environment {
-                        RELEASE = 'cast-db'
+            stage('deploy cast-db') {
+                environment {
+                    RELEASE = 'cast-db'
+                }
+                steps {
+                    timeount(time: 15, unit: "MINUTES") {
+                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                     }
-                    steps {
-                        timeount(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
-                        script {
-                            sh """
-                            ./cast-db/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """
-                        }
+                    script {
+                        sh """
+                        ./cast-db/deploy.sh
+                        helm upgrade --install ${RELEASE} ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """
                     }
                 }
-                stage('deploy movie-db') {
-                    environment {
-                        RELEASE = 'movie-db'
+            }
+            stage('deploy movie-db') {
+                environment {
+                    RELEASE = 'movie-db'
+                }
+                steps {
+                    timeount(time: 15, unit: "MINUTES") {
+                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                     }
-                    steps {
-                        timeount(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
-                        script {
-                            sh """
-                            ./movie-db/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """
-                        }
+                    script {
+                        sh """
+                        ./movie-db/deploy.sh
+                        helm upgrade --install ${RELEASE} ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """
                     }
                 }
             }
@@ -409,62 +407,60 @@ pipeline {
             environment {
                 ENV = 'prod'
             }
-            parallel {
-                stage('deploy cast app') {
-                    environment {
-                        RELEASE = 'cast'
+            stage('deploy cast app') {
+                environment {
+                    RELEASE = 'cast'
+                }
+                steps {
+                    timeount(time: 15, unit: "MINUTES") {
+                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                     }
-                    steps {
-                        timeount(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
-                        script {
-                            sh """
-                            ./cast-service/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """
-                        }
+                    script {
+                        sh """
+                        ./cast-service/deploy.sh
+                        helm upgrade --install ${RELEASE} ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """
                     }
                 }
-                stage('deploy movie app') {
-                    environment {
-                        RELEASE = 'movie'
+            }
+            stage('deploy movie app') {
+                environment {
+                    RELEASE = 'movie'
+                }
+                steps {
+                    timeount(time: 15, unit: "MINUTES") {
+                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                     }
-                    steps {
-                        timeount(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
-                        script {
-                            sh """
-                            ./movie-service/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """
-                        }
+                    script {
+                        sh """
+                        ./movie-service/deploy.sh
+                        helm upgrade --install ${RELEASE} ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """
                     }
                 }
-                stage('deploy-nginx') {
-                    environment {
-                        RELEASE = 'nginx'
+            }
+            stage('deploy-nginx') {
+                environment {
+                    RELEASE = 'nginx'
+                }
+                steps {
+                    timeount(time: 15, unit: "MINUTES") {
+                        input message: 'Do you want to deploy in production?', ok: 'Yes!'
                     }
-                    steps {
-                        timeount(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
-                        script {
-                            sh """
-                            ./nginx/deploy.sh
-                            helm upgrade --install ${RELEASE} ./charts \
-                                -f values.yaml \
-                                -n ${ENV} \
-                                --atomic
-                            """ 
-                        }
+                    script {
+                        sh """
+                        ./nginx/deploy.sh
+                        helm upgrade --install ${RELEASE} ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """ 
                     }
                 }
             }
