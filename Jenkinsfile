@@ -116,7 +116,7 @@ pipeline {
                 ENV = 'dev'
             }
             parallel {
-                stage('deploy cast app') {
+                stage('deploy cast-app') {
                     environment {
                         RELEASE = 'cast'
                     }
@@ -132,7 +132,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy movie app') {
+                stage('deploy movie-app') {
                     environment {
                         RELEASE = 'movie'
                     }
@@ -210,7 +210,7 @@ pipeline {
                 ENV = 'qa'
             }
             parallel {
-                stage('deploy cast app') {
+                stage('deploy cast-app') {
                     environment {
                         RELEASE = 'cast'
                     }
@@ -226,7 +226,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy movie app') {
+                stage('deploy movie-app') {
                     environment {
                         RELEASE = 'movie'
                     }
@@ -304,7 +304,7 @@ pipeline {
                 ENV = 'staging'
             }
             parallel {
-                stage('deploy cast app') {
+                stage('deploy cast-app') {
                     environment {
                         RELEASE = 'cast'
                     }
@@ -320,7 +320,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy movie app') {
+                stage('deploy movie-app') {
                     environment {
                         RELEASE = 'movie'
                     }
@@ -336,7 +336,7 @@ pipeline {
                         }
                     }
                 }
-                stage('deploy-nginx') {
+                stage('deploy nginx') {
                     environment {
                         RELEASE = 'nginx'
                     }
@@ -354,7 +354,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy-db:prod') {
+        stage('deploy cast-db:prod') {
             when {
                 branch 'main'
             }
@@ -380,7 +380,7 @@ pipeline {
                     }
                 }
             }
-            stage('deploy movie-db') {
+            stage('deploy movie-db:prod') {
                 environment {
                     RELEASE = 'movie-db'
                 }
@@ -400,7 +400,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy-app:prod') {
+        stage('deploy cast-app:prod') {
             when {
                 branch 'main'
             }
@@ -426,7 +426,7 @@ pipeline {
                     }
                 }
             }
-            stage('deploy movie app') {
+            stage('deploy movie-app:prod') {
                 environment {
                     RELEASE = 'movie'
                 }
@@ -445,7 +445,7 @@ pipeline {
                     }
                 }
             }
-            stage('deploy-nginx') {
+            stage('deploy nginx:prod') {
                 environment {
                     RELEASE = 'nginx'
                 }
