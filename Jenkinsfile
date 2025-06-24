@@ -451,12 +451,10 @@ pipeline {
             steps {
                 input message: 'Do you want to deploy in production?', ok: 'Yes!'
             }
-            environment {
-                ENV = 'prod'
-            }
             options {
                 timeout(time: 15, unit: "MINUTES") 
                 }
+        }
         stage('deploy-db:prod') {
             when {
                 branch 'main'
@@ -586,5 +584,3 @@ pipeline {
         }
     }
 }
-
-  
