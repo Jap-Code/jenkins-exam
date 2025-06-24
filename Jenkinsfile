@@ -1,7 +1,7 @@
 
 def Deploy = { RELEASE, PATH ->
     sh """
-    ./${PATH}/deploy.sh
+    ./${path}/deploy.sh
     helm upgrade --install ${RELEASE} ./charts \
         -f values.yaml \
         -n ${ENV} \
@@ -100,6 +100,36 @@ pipeline {
                         script {
                             Deploy('movie-db', 'movie-db')
                         }
+                    }
+                }
+            }
+        }
+        stage('Wait for Database') {
+            steps {
+                echo "Waiting for database to be ready..."
+
+                script {
+                    // Versucht max. 30 mal, alle 5 Sekunden eine Verbindung zu prüfen
+                    def retries = 30
+                    def success = false
+
+                    for (int i = 0; i < retries; i++) {
+                        def result = sh(
+                            script: 'kubectl exec -n dev cast-db-0 -- pg_isready -U admin',
+                            returnStatus: true
+                        )
+                        if (result == 0) {
+                            echo "Database is ready!"
+                            success = true
+                            break
+                        } else {
+                            echo "Database not ready yet. Waiting 5 seconds..."
+                            sleep 5
+                        }
+                    }
+
+                    if (!success) {
+                        error("Database did not become ready in time!")
                     }
                 }
             }
