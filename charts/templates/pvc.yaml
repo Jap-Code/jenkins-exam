@@ -22,6 +22,7 @@ metadata:
     app: {{ .Release.Name }}
 spec:
   storageClassName: {{ .Values.storageClassName }}
+  reclaimPolicy: Delete #only for debug!
   capacity:
     storage: 2Gi
   accessModes:
