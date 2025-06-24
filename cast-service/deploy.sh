@@ -3,7 +3,7 @@
 DB_ENABLE=false
 APP_ENABLE=true
 NGINX_ENABLE=false
-
+INGRESS_ENABLE=false
 
 REPLICA_COUNT=1
 IMAGE="${DOCKER_ID}/${RELEASE}"
@@ -22,6 +22,7 @@ DATABASE_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${RELEASE}-db-service/${REL
 sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__APP_ENABLE__|${APP_ENABLE}|g" \
     -e "s|__NGINX_ENABLE__|${NGINX_ENABLE}|g" \
+    -e "s|__INGRESS_ENABLE__|${INGRESS_ENABLE}|g" \
     -e "s|__REPLICA_COUNT__|${REPLICA_COUNT}|g" \
     -e "s|__IMAGE__|${IMAGE}|g" \
     -e "s|__TAG__|${TAG}|g" \
