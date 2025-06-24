@@ -8,9 +8,6 @@ app:
 nginx:
   enabled: __NGINX_ENABLE__
 
-ingress:
-  enabled: __INGRESS_ENABLE__
-
 replicaCount: __REPLICA_COUNT__
 image: 
   repository: "__IMAGE__"
