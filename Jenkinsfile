@@ -354,18 +354,10 @@ pipeline {
                 }
             }
         }
-        stage('confirm prod deploy') {
-            steps {
-                input message: 'Do you want to deploy in production?', ok: 'Yes!'
-            }
-            options {
-                timeout(time: 15, unit: "MINUTES") 
-            }
+        stage('deploy-db:prod') {
             when {
                 branch 'main'
             }
-        }
-        stage('deploy-db:prod') {
             environment {
                 ENV = 'prod'
             }
@@ -375,6 +367,9 @@ pipeline {
                         RELEASE = 'cast-db'
                     }
                     steps {
+                        timeount(time: 15, unit: "MINUTES") {
+                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
+                        }
                         script {
                             sh """
                             ./cast-db/deploy.sh
@@ -391,6 +386,9 @@ pipeline {
                         RELEASE = 'movie-db'
                     }
                     steps {
+                        timeount(time: 15, unit: "MINUTES") {
+                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
+                        }
                         script {
                             sh """
                             ./movie-db/deploy.sh
@@ -405,6 +403,9 @@ pipeline {
             }
         }
         stage('deploy-app:prod') {
+            when {
+                branch 'main'
+            }
             environment {
                 ENV = 'prod'
             }
@@ -414,6 +415,9 @@ pipeline {
                         RELEASE = 'cast'
                     }
                     steps {
+                        timeount(time: 15, unit: "MINUTES") {
+                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
+                        }
                         script {
                             sh """
                             ./cast-service/deploy.sh
@@ -430,6 +434,9 @@ pipeline {
                         RELEASE = 'movie'
                     }
                     steps {
+                        timeount(time: 15, unit: "MINUTES") {
+                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
+                        }
                         script {
                             sh """
                             ./movie-service/deploy.sh
@@ -446,6 +453,9 @@ pipeline {
                         RELEASE = 'nginx'
                     }
                     steps {
+                        timeount(time: 15, unit: "MINUTES") {
+                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
+                        }
                         script {
                             sh """
                             ./nginx/deploy.sh
