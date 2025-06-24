@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 DB_ENABLE=false
 APP_ENABLE=true
 NGINX_ENABLE=false
@@ -13,8 +15,6 @@ TARGET_PORT=8000
 SERVICE_PORT=8000
 SERVICE_TYPE=ClusterIP
 
-DB_USER="admin"
-DB_PASSWORD="credential"
 DATABASE_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${RELEASE}-db-service/${RELEASE}-db"
 
 

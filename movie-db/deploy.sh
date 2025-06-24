@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 DB_ENABLE=true
 APP_ENABLE=false
 NGINX_ENABLE=false
@@ -17,8 +19,7 @@ MOUNT_PATH=/var/lib/postgresql/data/
 
 STORAGE_CLASS_NAME="local-path"
 
-DB_USER="admin"
-DB_PASSWORD="credential"
+
 
 
 sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \

@@ -150,7 +150,6 @@ pipeline {
                 }
                 stage('deploy-nginx') {
                     environment {
-                        ENV = 'dev'
                         RELEASE = 'nginx'
                     }
                     steps {
@@ -245,7 +244,6 @@ pipeline {
                 }
                 stage('deploy-nginx') {
                     environment {
-                        ENV = 'dev'
                         RELEASE = 'nginx'
                     }
                     steps {
@@ -340,7 +338,6 @@ pipeline {
                 }
                 stage('deploy-nginx') {
                     environment {
-                        ENV = 'dev'
                         RELEASE = 'nginx'
                     }
                     steps {
@@ -363,7 +360,10 @@ pipeline {
             }
             options {
                 timeout(time: 15, unit: "MINUTES") 
-                }
+            }
+            when {
+                branch 'main'
+            }
         }
         stage('deploy-db:prod') {
             environment {
@@ -443,7 +443,6 @@ pipeline {
                 }
                 stage('deploy-nginx') {
                     environment {
-                        ENV = 'dev'
                         RELEASE = 'nginx'
                     }
                     steps {
