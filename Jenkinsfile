@@ -407,6 +407,7 @@ pipeline {
                         RELEASE = 'nginx'
                         ENV = 'prod'
                     }
+                    steps {
                         script {
                             sh """
                             ./nginx/deploy.sh
