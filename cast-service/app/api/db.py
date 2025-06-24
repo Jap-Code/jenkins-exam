@@ -19,13 +19,3 @@ casts = Table(
 )
 
 database = Database(DATABASE_URI)
-
-# engine = None
-# database = None
-
-# def init_db():
-#     global engine, database
-#     engine = create_engine(DATABASE_URI)
-#     global metadata
-#     metadata.create_all(engine)
-#     database = Database(DATABASE_URI)

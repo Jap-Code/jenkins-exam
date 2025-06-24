@@ -16,6 +16,7 @@ SERVICE_TYPE=ClusterIP
 
 DB_USER="admin"
 DB_PASSWORD="credential"
+DATABASE_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${RELEASE}-db-service/${RELEASE}-db"
 
 
 sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
@@ -30,4 +31,5 @@ sed -e "s|__DB_ENABLE__|${DB_ENABLE}|g" \
     -e "s|__SERVICE_TYPE__|${SERVICE_TYPE}|g" \
     -e "s|__DB_USER__|${DB_USER}|g" \
     -e "s|__DB_PASSWORD__|${DB_PASSWORD}|g" \
+    -e "s|__DATABASE_URI__|${DATABASE_URI}|g" \
     ./charts/values-template.yaml > values.yaml
