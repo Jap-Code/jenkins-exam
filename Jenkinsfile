@@ -141,9 +141,13 @@ pipeline {
             parallel {
                 stage('deploy cast app') {
                     steps {
-                        script {
-                            Deploy('cast-service', 'cast')
-                        }
+                        sh """
+                        ./cast-service/deploy.sh
+                        helm upgrade --install cast ./charts \
+                            -f values.yaml \
+                            -n ${ENV} \
+                            --atomic
+                        """
                     }
                 }
                 stage('deploy movie app') {
