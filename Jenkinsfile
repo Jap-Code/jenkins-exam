@@ -111,7 +111,7 @@ pipeline {
                 }
             }
         }
-        stage('Wait for Database') {
+        stage('Wait for database dev') {
             steps {
                 echo "Waiting for database to be ready..."
 
@@ -235,7 +235,7 @@ pipeline {
                 }
             }
         }
-        stage('Wait for Database') {
+        stage('Wait for database qa') {
             steps {
                 echo "Waiting for database to be ready..."
 
@@ -359,7 +359,7 @@ pipeline {
                 }
             }
         }
-        stage('Wait for Database') {
+        stage('Wait for database staging') {
             steps {
                 echo "Waiting for database to be ready..."
 
@@ -490,7 +490,7 @@ pipeline {
                 }
             }
         }
-        stage('Wait for Database') {
+        stage('Wait for Database prod') {
             steps {
                 echo "Waiting for database to be ready..."
 
