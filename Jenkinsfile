@@ -402,9 +402,6 @@ pipeline {
                         ENV = 'prod'
                     }
                     steps {
-                        timeout(time: 15, unit: "MINUTES") {
-                            input message: 'Do you want to deploy in production?', ok: 'Yes!'
-                        }
                         script {
                             sh """
                             ./nginx/deploy.sh
