@@ -1,7 +1,7 @@
 
 def Deploy = { RELEASE, PATH ->
     sh """
-    ./${path}/deploy.sh
+    ./${PATH}/deploy.sh
     helm upgrade --install ${RELEASE} ./charts \
         -f values.yaml \
         -n ${ENV} \
