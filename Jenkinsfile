@@ -1,5 +1,5 @@
 
-def Deploy = { RELEASE, PATH ->
+def Deploy = { PATH, RELEASE ->
     sh """
     ./${PATH}/deploy.sh
     helm upgrade --install ${RELEASE} ./charts \
@@ -142,14 +142,14 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service')
+                            Deploy('cast-service', 'cast')
                         }
                     }
                 }
                 stage('deploy movie app') {
                     steps {
                         script {
-                            Deploy('movie', 'movie-service')
+                            Deploy('movie-service', 'movie')
                         }
                     }
                 }
@@ -191,14 +191,14 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service')
+                            Deploy('cast-service', 'cast')
                         }
                     }
                 }
                 stage('deploy movie app') {
                     steps {
                         script {
-                            Deploy('movie', 'movie-service')
+                            Deploy('movie-service', 'movie')
                         }
                     }
                 }
@@ -240,14 +240,14 @@ pipeline {
                 stage('deploy cast app') {
                     steps {
                         script {
-                            Deploy('cast', 'cast-service')
+                            Deploy('cast-service', 'cast')
                         }
                     }
                 }
                 stage('deploy movie app') {
                     steps {
                         script {
-                            Deploy('movie', 'movie-service')
+                            Deploy('movie-service', 'movie')
                         }
                     }
                 }
@@ -303,14 +303,14 @@ pipeline {
                     steps {
                         input message: 'Do you want to deploy in production?', ok: 'Yes!'
                         script {
-                            Deploy('cast', 'cast-service')
+                            Deploy('cast-service', 'cast')
                         }
                     }
                 }
                 stage('deploy movie app') {
                     steps {
                         script {
-                            Deploy('movie', 'movie-service')
+                            Deploy('movie-service', 'movie')
                         }
                     }
                 }
